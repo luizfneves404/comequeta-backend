@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,git
 
+### Project ###
+# Generated OpenAPI schema (consumed by frontend codegen)
+openapi.json
+
 ### Git ###
 # Created by git for backups. To disable backups in Git:
 # $ git config --global mergetool.keepBackup false
@@ -79,6 +83,8 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+*.db
+comequeta.db
 
 # Flask stuff:
 instance/

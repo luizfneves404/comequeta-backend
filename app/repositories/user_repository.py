@@ -1,0 +1,41 @@
+"""Adapter: SQLAlchemy implementation of the UserRepository port."""
+
+from sqlalchemy import select
+from sqlalchemy.orm import Session
+
+from app.entities.user import User
+from app.interfaces.user_repository import UserRepository
+from app.repositories.models import UserModel
+
+
+def _to_entity(model: UserModel) -> User:
+    return User(
+        id=model.id,
+        email=model.email,
+        name=model.name,
+        hashed_password=model.hashed_password,
+    )
+
+
+class SqlAlchemyUserRepository(UserRepository):
+    def __init__(self, session: Session) -> None:
+        self._session = session
+
+    def add(self, user: User) -> User:
+        model = UserModel(
+            email=user.email,
+            name=user.name,
+            hashed_password=user.hashed_password,
+        )
+        self._session.add(model)
+        self._session.commit()
+        self._session.refresh(model)
+        return _to_entity(model)
+
+    def get_by_email(self, email: str) -> User | None:
+        model = self._session.scalar(select(UserModel).where(UserModel.email == email))
+        return _to_entity(model) if model is not None else None
+
+    def get_by_id(self, user_id: int) -> User | None:
+        model = self._session.get(UserModel, user_id)
+        return _to_entity(model) if model is not None else None

@@ -1,0 +1,30 @@
+"""Use case: register a new user."""
+
+from app.entities.user import User
+from app.interfaces.security import PasswordHasher
+from app.interfaces.user_repository import UserRepository
+from app.usecases.errors import EmailAlreadyExists
+
+
+class RegisterUser:
+    """Create a new user account.
+
+    Depends only on abstractions (UserRepository, PasswordHasher), so it can be
+    unit-tested with in-memory fakes and no database.
+    """
+
+    def __init__(self, users: UserRepository, hasher: PasswordHasher) -> None:
+        self._users = users
+        self._hasher = hasher
+
+    def execute(self, email: str, name: str, password: str) -> User:
+        if self._users.get_by_email(email) is not None:
+            raise EmailAlreadyExists(email)
+
+        user = User(
+            id=None,
+            email=email,
+            name=name,
+            hashed_password=self._hasher.hash(password),
+        )
+        return self._users.add(user)
