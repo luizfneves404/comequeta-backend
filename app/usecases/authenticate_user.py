@@ -2,7 +2,7 @@
 
 from app.interfaces.security import PasswordHasher, TokenProvider
 from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import InvalidCredentials
+from app.usecases.errors import InvalidCredentialsError
 
 
 class AuthenticateUser:
@@ -23,8 +23,10 @@ class AuthenticateUser:
 
     def execute(self, email: str, password: str) -> str:
         user = self._users.get_by_email(email)
-        if user is None or not self._hasher.verify(password, user.hashed_password):
-            raise InvalidCredentials()
+        if user is None or not self._hasher.verify(
+            password, user.hashed_password
+        ):
+            raise InvalidCredentialsError()
 
         assert user.id is not None  # persisted users always have an id
         return self._tokens.create_access_token(subject=str(user.id))

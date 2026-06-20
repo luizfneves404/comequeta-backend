@@ -3,7 +3,7 @@
 from app.entities.user import User
 from app.interfaces.security import PasswordHasher
 from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import EmailAlreadyExists
+from app.usecases.errors import EmailAlreadyExistsError
 
 
 class RegisterUser:
@@ -19,7 +19,7 @@ class RegisterUser:
 
     def execute(self, email: str, name: str, password: str) -> User:
         if self._users.get_by_email(email) is not None:
-            raise EmailAlreadyExists(email)
+            raise EmailAlreadyExistsError(email)
 
         user = User(
             id=None,

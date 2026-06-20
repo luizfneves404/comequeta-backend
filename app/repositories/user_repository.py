@@ -33,7 +33,9 @@ class SqlAlchemyUserRepository(UserRepository):
         return _to_entity(model)
 
     def get_by_email(self, email: str) -> User | None:
-        model = self._session.scalar(select(UserModel).where(UserModel.email == email))
+        model = self._session.scalar(
+            select(UserModel).where(UserModel.email == email)
+        )
         return _to_entity(model) if model is not None else None
 
     def get_by_id(self, user_id: int) -> User | None:

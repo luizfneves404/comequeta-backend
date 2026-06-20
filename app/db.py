@@ -13,10 +13,16 @@ from app.config import settings
 
 # check_same_thread=False is needed for SQLite when the connection is shared
 # across FastAPI's threadpool. Harmless for our single-process MVP.
-connect_args = {"check_same_thread": False} if settings.database_url.startswith("sqlite") else {}
+connect_args = (
+    {"check_same_thread": False}
+    if settings.database_url.startswith("sqlite")
+    else {}
+)
 
 engine = create_engine(settings.database_url, connect_args=connect_args)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+SessionLocal = sessionmaker(
+    bind=engine, autoflush=False, expire_on_commit=False
+)
 
 
 class Base(DeclarativeBase):

@@ -89,7 +89,7 @@ uv run main.py
 
 ### Linting, formatting and type checking
 
-This project uses [Ruff](https://docs.astral.sh/ruff/) for linting/formatting and [ty](https://github.com/astral-sh/ty) for type checking. These run automatically on commit via [pre-commit](https://pre-commit.com/), but can also be run manually:
+This project follows **[PEP 8](https://peps.python.org/pep-0008/)** enforced by [Ruff](https://docs.astral.sh/ruff/) (79-character lines, pycodestyle, pep8-naming) and [ty](https://github.com/astral-sh/ty) for type checking. These run automatically on commit via [pre-commit](https://pre-commit.com/).
 
 Commit messages are validated on commit via pre-commit (`scripts/validate-commit-msg.sh`). They must follow Conventional Commits: `<type>: <lower-case-subject>` (e.g. `feat: add user registration`). Allowed types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, `build`, `perf`, `revert`.
 
@@ -100,8 +100,8 @@ echo "feat: add user registration" | bash scripts/validate-commit-msg.sh /dev/st
 ```
 
 ```bash
-uv run ruff check .       # lint
-uv run ruff format .      # format
+uv run ruff check .       # PEP 8 lint
+uv run ruff format .      # PEP 8 format
 uv run ty check           # type check
 ```
 
