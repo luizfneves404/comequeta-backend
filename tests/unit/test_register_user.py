@@ -1,6 +1,6 @@
 import pytest
 
-from app.usecases.errors import EmailAlreadyExists
+from app.usecases.errors import EmailAlreadyExistsError
 from app.usecases.register_user import RegisterUser
 from tests.fakes import FakePasswordHasher, FakeUserRepository
 
@@ -13,7 +13,9 @@ def make_use_case() -> tuple[RegisterUser, FakeUserRepository]:
 def test_registers_user_with_hashed_password() -> None:
     register, users = make_use_case()
 
-    user = register.execute(email="ana@example.com", name="Ana", password="secret123")
+    user = register.execute(
+        email="ana@example.com", name="Ana", password="secret123"
+    )
 
     assert user.id is not None
     assert user.email == "ana@example.com"
@@ -27,5 +29,7 @@ def test_rejects_duplicate_email() -> None:
     register, _ = make_use_case()
     register.execute(email="ana@example.com", name="Ana", password="secret123")
 
-    with pytest.raises(EmailAlreadyExists):
-        register.execute(email="ana@example.com", name="Other", password="another12")
+    with pytest.raises(EmailAlreadyExistsError):
+        register.execute(
+            email="ana@example.com", name="Other", password="another12"
+        )

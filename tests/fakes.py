@@ -24,7 +24,9 @@ class FakeUserRepository(UserRepository):
         return stored
 
     def get_by_email(self, email: str) -> User | None:
-        return next((u for u in self._users.values() if u.email == email), None)
+        return next(
+            (u for u in self._users.values() if u.email == email), None
+        )
 
     def get_by_id(self, user_id: int) -> User | None:
         return self._users.get(user_id)

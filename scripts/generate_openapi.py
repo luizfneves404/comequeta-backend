@@ -1,4 +1,4 @@
-"""Generate the OpenAPI schema as JSON, for consumption by frontend codegen tools."""
+"""Generate the OpenAPI schema as JSON for frontend codegen tools."""
 
 import argparse
 import json

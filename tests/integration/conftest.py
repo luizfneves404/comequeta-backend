@@ -26,10 +26,12 @@ def client() -> Iterator[TestClient]:
         poolclass=StaticPool,
     )
     Base.metadata.create_all(bind=engine)
-    TestingSession = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+    test_session_factory = sessionmaker(
+        bind=engine, autoflush=False, expire_on_commit=False
+    )
 
     def override_get_session() -> Iterator[Session]:
-        session = TestingSession()
+        session = test_session_factory()
         try:
             yield session
         finally:

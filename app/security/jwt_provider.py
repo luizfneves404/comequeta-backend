@@ -12,7 +12,9 @@ from app.interfaces.security import TokenProvider
 
 
 class JwtTokenProvider(TokenProvider):
-    def __init__(self, secret_key: str, algorithm: str, expire_minutes: int) -> None:
+    def __init__(
+        self, secret_key: str, algorithm: str, expire_minutes: int
+    ) -> None:
         self._secret_key = secret_key
         self._algorithm = algorithm
         self._expire_minutes = expire_minutes
@@ -27,7 +29,9 @@ class JwtTokenProvider(TokenProvider):
         return jwt.encode(payload, self._secret_key, algorithm=self._algorithm)
 
     def decode(self, token: str) -> str:
-        payload = jwt.decode(token, self._secret_key, algorithms=[self._algorithm])
+        payload = jwt.decode(
+            token, self._secret_key, algorithms=[self._algorithm]
+        )
         subject = payload.get("sub")
         if not isinstance(subject, str):
             raise InvalidTokenError("Token is missing the subject claim")

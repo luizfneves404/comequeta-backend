@@ -9,9 +9,9 @@ class ApplicationError(Exception):
     """Base class for errors raised by use cases."""
 
 
-class EmailAlreadyExists(ApplicationError):
+class EmailAlreadyExistsError(ApplicationError):
     """Raised when registering a user with an email that is already taken."""
 
 
-class InvalidCredentials(ApplicationError):
+class InvalidCredentialsError(ApplicationError):
     """Raised when authentication fails (unknown email or wrong password)."""
