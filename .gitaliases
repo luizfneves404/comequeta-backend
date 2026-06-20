@@ -1,0 +1,3 @@
+[alias]
+	feature = !bash scripts/create-feature-branch.sh
+	hotfix = !bash scripts/create-hotfix-branch.sh

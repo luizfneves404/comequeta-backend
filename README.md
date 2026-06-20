@@ -25,7 +25,7 @@ Backend for the Comé que Tá project, built with FastAPI and SQLAlchemy.
 3. Install the pre-commit hooks (run once after cloning):
 
    ```bash
-   uv run pre-commit install
+   uv run pre-commit install -t pre-commit -t commit-msg
    ```
 
 4. Copy the example environment file and adjust as needed:
@@ -90,6 +90,14 @@ uv run main.py
 ### Linting, formatting and type checking
 
 This project uses [Ruff](https://docs.astral.sh/ruff/) for linting/formatting and [ty](https://github.com/astral-sh/ty) for type checking. These run automatically on commit via [pre-commit](https://pre-commit.com/), but can also be run manually:
+
+Commit messages are validated on commit via pre-commit (`scripts/validate-commit-msg.sh`). They must follow Conventional Commits: `<type>: <lower-case-subject>` (e.g. `feat: add user registration`). Allowed types: `feat`, `fix`, `chore`, `docs`, `style`, `refactor`, `test`, `ci`, `build`, `perf`, `revert`.
+
+Test a message manually:
+
+```bash
+echo "feat: add user registration" | bash scripts/validate-commit-msg.sh /dev/stdin
+```
 
 ```bash
 uv run ruff check .       # lint
