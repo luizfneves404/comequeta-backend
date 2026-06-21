@@ -41,9 +41,34 @@ substituto do servidor para a troca de mensagens.
   arquivo `.db` (script/cron simples no host). Snapshots gerenciados ficam para
   um eventual Postgres.
 
+## Exposição em "produção" (ngrok) e banco gerenciado gratuito
+
+Para a demo acadêmica, o backend pode rodar na máquina do time e ser exposto à
+internet via **ngrok**. **Importante:** o ngrok é apenas um **túnel HTTP/TCP — ele
+não armazena dados nem oferece banco de dados.** O banco continua sendo o SQLite
+(ou outro) **na máquina que roda o backend**; o ngrok só dá uma URL pública.
+
+- **ngrok + SQLite local:** simples para demonstração; os dados vivem no `.db` da
+  máquina. Limitações: persiste só enquanto a máquina/processo estiver no ar; a
+  URL gratuita do ngrok muda a cada execução (use um domínio reservado se
+  necessário). WebSocket do chat funciona pelo túnel.
+- **Banco gerenciado gratuito (se quiserem persistência independente da máquina):**
+  como o backend usa SQLAlchemy + `DATABASE_URL`, basta apontar para um Postgres
+  grátis — sem mudar código:
+  - **Neon** (`postgresql://...`) — Postgres serverless, free tier generoso.
+  - **Supabase** (`postgresql://...`) — Postgres gerenciado, free tier.
+  - **Turso** (libSQL/SQLite) — mais próximo do SQLite atual; requer o driver
+    libSQL.
+
+  Recomendação: **Neon ou Supabase** (Postgres padrão, só trocar `DATABASE_URL`).
+  Nesse caso, instalar o driver `psycopg`/`psycopg2` no backend.
+
 ## Consequências
 
 - Zero custo de nuvem; setup trivial para o time acadêmico.
-- Caminho de evolução claro (trocar `DATABASE_URL` para Postgres) sem reescrever.
+- Caminho de evolução claro (trocar `DATABASE_URL` para Postgres gerenciado, ex.:
+  Neon/Supabase) sem reescrever.
+- ngrok cobre a exposição pública para demo; persistência "de verdade" em produção
+  vem de um Postgres gratuito quando desejado.
 - O app ganha resiliência offline para leitura do histórico recente, com tamanho
   de armazenamento limitado por design.
