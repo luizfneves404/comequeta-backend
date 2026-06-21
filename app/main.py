@@ -33,6 +33,9 @@ app = FastAPI(title="Comé que Tá API", debug=settings.debug, lifespan=lifespan
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
+    # Allow any localhost/127.0.0.1 port in development (Vite may pick 5173,
+    # 5174, 5175, ... when a port is already in use).
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
