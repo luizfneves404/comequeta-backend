@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.db import Base, engine
-from app.gateways import auth_router, users_router
+from app.gateways import auth_router, chat_router, users_router
 
 # Import models so they are registered on Base.metadata before create_all.
 from app.repositories import models  # noqa: F401
@@ -56,6 +56,8 @@ async def log_request_performance(request: Request, call_next):
 
 app.include_router(auth_router.router)
 app.include_router(users_router.router)
+app.include_router(chat_router.router)
+app.include_router(chat_router.ws_router)
 
 
 @app.get("/health")
