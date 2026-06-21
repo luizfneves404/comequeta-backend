@@ -38,6 +38,11 @@ class FakeUserRepository(UserRepository):
     def list_others(self, exclude_user_id: int) -> list[User]:
         return [u for uid, u in self._users.items() if uid != exclude_user_id]
 
+    def update_location(self, user_id: int, lat: float, lng: float) -> None:
+        user = self._users.get(user_id)
+        if user is not None:
+            self._users[user_id] = replace(user, lat=lat, lng=lng)
+
 
 class FakeMessageRepository(MessageRepository):
     def __init__(self) -> None:
@@ -104,6 +109,14 @@ class FakeMessageRepository(MessageRepository):
                 self._messages[i] = replace(m, read_at=now)
                 count += 1
         return count
+
+    def delete_conversation(self, user_id: int, peer_id: int) -> int:
+        pair = {user_id, peer_id}
+        before = len(self._messages)
+        self._messages = [
+            m for m in self._messages if {m.sender_id, m.recipient_id} != pair
+        ]
+        return before - len(self._messages)
 
 
 class FakePasswordHasher(PasswordHasher):

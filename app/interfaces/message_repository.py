@@ -41,3 +41,10 @@ class MessageRepository(Protocol):
         Returns the number of messages updated.
         """
         ...
+
+    def delete_conversation(self, user_id: int, peer_id: int) -> int:
+        """Delete every message exchanged between the two users.
+
+        Returns the number of messages deleted.
+        """
+        ...

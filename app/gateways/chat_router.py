@@ -27,6 +27,7 @@ from app.entities.user import User
 from app.gateways.connection_manager import manager
 from app.gateways.deps import (
     get_current_user,
+    get_delete_conversation,
     get_list_conversation,
     get_list_conversations,
     get_mark_read,
@@ -41,6 +42,7 @@ from app.interfaces.security import TokenProvider
 from app.repositories.message_repository import SqlMessageRepository
 from app.repositories.user_repository import SqlAlchemyUserRepository
 from app.security.jwt_provider import JwtTokenProvider
+from app.usecases.delete_conversation import DeleteConversation
 from app.usecases.errors import RecipientNotFoundError
 from app.usecases.list_conversation import ListConversation
 from app.usecases.list_conversations import ListConversations
@@ -115,6 +117,17 @@ def mark_read(
     current_user: Annotated[User, Depends(get_current_user)],
     use_case: Annotated[MarkRead, Depends(get_mark_read)],
 ) -> None:
+    assert current_user.id is not None
+    use_case.execute(user_id=current_user.id, peer_id=peer_id)
+
+
+@router.delete("/messages/{peer_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_conversation(
+    peer_id: int,
+    current_user: Annotated[User, Depends(get_current_user)],
+    use_case: Annotated[DeleteConversation, Depends(get_delete_conversation)],
+) -> None:
+    """Delete the whole conversation with ``peer_id``."""
     assert current_user.id is not None
     use_case.execute(user_id=current_user.id, peer_id=peer_id)
 

@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from sqlalchemy import and_, or_, select, update
+from sqlalchemy import and_, delete, or_, select, update
 from sqlalchemy.orm import Session
 
 from app.entities.conversation import ConversationSummary
@@ -120,5 +120,20 @@ class SqlMessageRepository(MessageRepository):
             .values(read_at=now)
         )
         result = self._session.execute(stmt)
+        self._session.commit()
+        return result.rowcount  # ty: ignore[unresolved-attribute]
+
+    def delete_conversation(self, user_id: int, peer_id: int) -> int:
+        between = or_(
+            and_(
+                MessageModel.sender_id == user_id,
+                MessageModel.recipient_id == peer_id,
+            ),
+            and_(
+                MessageModel.sender_id == peer_id,
+                MessageModel.recipient_id == user_id,
+            ),
+        )
+        result = self._session.execute(delete(MessageModel).where(between))
         self._session.commit()
         return result.rowcount  # ty: ignore[unresolved-attribute]

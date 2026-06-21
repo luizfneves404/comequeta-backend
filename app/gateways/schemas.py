@@ -35,6 +35,27 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
+class LocationUpdate(BaseModel):
+    lat: float = Field(ge=-90, le=90)
+    lng: float = Field(ge=-180, le=180)
+
+
+class NearbyUserRead(BaseModel):
+    id: int
+    name: str
+    lat: float
+    lng: float
+
+    @classmethod
+    def from_entity(cls, user: User) -> NearbyUserRead:
+        assert (
+            user.id is not None
+            and user.lat is not None
+            and user.lng is not None
+        )
+        return cls(id=user.id, name=user.name, lat=user.lat, lng=user.lng)
+
+
 class MessageCreate(BaseModel):
     recipient_id: int
     content: str = Field(min_length=1, max_length=4000)

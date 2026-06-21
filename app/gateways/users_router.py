@@ -2,12 +2,19 @@
 
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 
 from app.entities.user import User
-from app.gateways.deps import get_current_user, get_list_users
-from app.gateways.schemas import UserRead
+from app.gateways.deps import (
+    get_current_user,
+    get_list_nearby_users,
+    get_list_users,
+    get_update_location,
+)
+from app.gateways.schemas import LocationUpdate, NearbyUserRead, UserRead
+from app.usecases.list_nearby_users import ListNearbyUsers
 from app.usecases.list_users import ListUsers
+from app.usecases.update_location import UpdateLocation
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -17,6 +24,31 @@ def read_current_user(
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> UserRead:
     return UserRead.from_entity(current_user)
+
+
+@router.put("/me/location", status_code=status.HTTP_204_NO_CONTENT)
+def update_my_location(
+    payload: LocationUpdate,
+    current_user: Annotated[User, Depends(get_current_user)],
+    use_case: Annotated[UpdateLocation, Depends(get_update_location)],
+) -> None:
+    """Report the current user's position (called when they open the map)."""
+    assert current_user.id is not None
+    use_case.execute(current_user.id, payload.lat, payload.lng)
+
+
+@router.get("/nearby", response_model=list[NearbyUserRead])
+def list_nearby(
+    lat: float,
+    lng: float,
+    current_user: Annotated[User, Depends(get_current_user)],
+    use_case: Annotated[ListNearbyUsers, Depends(get_list_nearby_users)],
+    radius_m: float = 500,
+) -> list[NearbyUserRead]:
+    """Other users with a reported position within ``radius_m``."""
+    assert current_user.id is not None
+    nearby = use_case.execute(current_user.id, lat, lng, radius_m)
+    return [NearbyUserRead.from_entity(user) for user in nearby]
 
 
 @router.get("", response_model=list[UserRead])

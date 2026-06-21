@@ -19,3 +19,6 @@ class User:
     email: str
     name: str
     hashed_password: str
+    # Last reported position (set when the user opens the map).
+    lat: float | None = None
+    lng: float | None = None
