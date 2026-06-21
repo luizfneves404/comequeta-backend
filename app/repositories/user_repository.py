@@ -14,6 +14,8 @@ def _to_entity(model: UserModel) -> User:
         email=model.email,
         name=model.name,
         hashed_password=model.hashed_password,
+        lat=model.lat,
+        lng=model.lng,
     )
 
 
@@ -49,3 +51,11 @@ class SqlAlchemyUserRepository(UserRepository):
             .order_by(UserModel.name)
         ).all()
         return [_to_entity(m) for m in models]
+
+    def update_location(self, user_id: int, lat: float, lng: float) -> None:
+        model = self._session.get(UserModel, user_id)
+        if model is None:
+            return
+        model.lat = lat
+        model.lng = lng
+        self._session.commit()

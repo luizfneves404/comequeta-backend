@@ -26,3 +26,7 @@ class UserRepository(Protocol):
     def list_others(self, exclude_user_id: int) -> list[User]:
         """Return all users except the one with `exclude_user_id`."""
         ...
+
+    def update_location(self, user_id: int, lat: float, lng: float) -> None:
+        """Persist the user's last reported position."""
+        ...

@@ -23,12 +23,15 @@ from app.repositories.user_repository import SqlAlchemyUserRepository
 from app.security.jwt_provider import JwtTokenProvider
 from app.security.password_hasher import PwdlibPasswordHasher
 from app.usecases.authenticate_user import AuthenticateUser
+from app.usecases.delete_conversation import DeleteConversation
 from app.usecases.list_conversation import ListConversation
 from app.usecases.list_conversations import ListConversations
+from app.usecases.list_nearby_users import ListNearbyUsers
 from app.usecases.list_users import ListUsers
 from app.usecases.mark_read import MarkRead
 from app.usecases.register_user import RegisterUser
 from app.usecases.send_message import SendMessage
+from app.usecases.update_location import UpdateLocation
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
@@ -43,6 +46,18 @@ def get_list_users(
     users: Annotated[UserRepository, Depends(get_user_repository)],
 ) -> ListUsers:
     return ListUsers(users)
+
+
+def get_list_nearby_users(
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> ListNearbyUsers:
+    return ListNearbyUsers(users)
+
+
+def get_update_location(
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> UpdateLocation:
+    return UpdateLocation(users)
 
 
 def get_password_hasher() -> PasswordHasher:
@@ -101,6 +116,12 @@ def get_mark_read(
     messages: Annotated[MessageRepository, Depends(get_message_repository)],
 ) -> MarkRead:
     return MarkRead(messages)
+
+
+def get_delete_conversation(
+    messages: Annotated[MessageRepository, Depends(get_message_repository)],
+) -> DeleteConversation:
+    return DeleteConversation(messages)
 
 
 def get_current_user(
