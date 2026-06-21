@@ -15,3 +15,7 @@ class EmailAlreadyExistsError(ApplicationError):
 
 class InvalidCredentialsError(ApplicationError):
     """Raised when authentication fails (unknown email or wrong password)."""
+
+
+class RecipientNotFoundError(ApplicationError):
+    """Raised when sending a message to a user that does not exist."""

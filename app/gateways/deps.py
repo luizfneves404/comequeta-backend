@@ -15,13 +15,19 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.db import get_session
 from app.entities.user import User
+from app.interfaces.message_repository import MessageRepository
 from app.interfaces.security import PasswordHasher, TokenProvider
 from app.interfaces.user_repository import UserRepository
+from app.repositories.message_repository import SqlMessageRepository
 from app.repositories.user_repository import SqlAlchemyUserRepository
 from app.security.jwt_provider import JwtTokenProvider
 from app.security.password_hasher import PwdlibPasswordHasher
 from app.usecases.authenticate_user import AuthenticateUser
+from app.usecases.list_conversation import ListConversation
+from app.usecases.list_conversations import ListConversations
+from app.usecases.mark_read import MarkRead
 from app.usecases.register_user import RegisterUser
+from app.usecases.send_message import SendMessage
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
@@ -57,6 +63,37 @@ def get_authenticate_user(
     tokens: Annotated[TokenProvider, Depends(get_token_provider)],
 ) -> AuthenticateUser:
     return AuthenticateUser(users, hasher, tokens)
+
+
+def get_message_repository(
+    session: Annotated[Session, Depends(get_session)],
+) -> MessageRepository:
+    return SqlMessageRepository(session)
+
+
+def get_send_message(
+    messages: Annotated[MessageRepository, Depends(get_message_repository)],
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> SendMessage:
+    return SendMessage(messages, users)
+
+
+def get_list_conversation(
+    messages: Annotated[MessageRepository, Depends(get_message_repository)],
+) -> ListConversation:
+    return ListConversation(messages)
+
+
+def get_list_conversations(
+    messages: Annotated[MessageRepository, Depends(get_message_repository)],
+) -> ListConversations:
+    return ListConversations(messages)
+
+
+def get_mark_read(
+    messages: Annotated[MessageRepository, Depends(get_message_repository)],
+) -> MarkRead:
+    return MarkRead(messages)
 
 
 def get_current_user(
