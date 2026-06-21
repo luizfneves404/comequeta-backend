@@ -81,11 +81,46 @@ App configuration is managed with [pydantic-settings](https://docs.pydantic.dev/
 
 ## Development
 
-Run the project:
+Run the project (FastAPI app, served by uvicorn):
 
 ```bash
-uv run main.py
+uv run uvicorn app.main:app --reload --port 8000
 ```
+
+Or use the helper script (binds to 0.0.0.0 so it can be tunneled):
+
+```bash
+bash scripts/serve.sh
+```
+
+The default database is a local SQLite file (`comequeta.db`), created
+automatically on startup — no external database required (see ADR 0003).
+
+## Exposing the backend publicly via ngrok (demo)
+
+For an academic demo, run the backend locally and expose it to the internet
+with [ngrok](https://ngrok.com/) — a tunnel, **not** a database (the data stays
+in the local SQLite file on this machine).
+
+1. Install ngrok and authenticate once with your free account:
+   ```bash
+   ngrok config add-authtoken <SEU_AUTHTOKEN>
+   ```
+2. Start the backend (e.g. `bash scripts/serve.sh`).
+3. In another terminal, open the tunnel to port 8000:
+   ```bash
+   ngrok http 8000
+   ```
+4. Copy the public HTTPS URL ngrok prints (e.g. `https://abc123.ngrok-free.app`)
+   and point the frontend at it via `VITE_API_URL` (in
+   `../comequeta-frontend/.env`). WebSockets (the chat at `/ws/chat`) tunnel over
+   `wss://` through the same URL.
+
+Notes:
+- The free ngrok URL changes on every run (reserve a domain if you need a stable
+  one). CORS already allows the app's origins (see `app/config.py`).
+- The frontend sends the `ngrok-skip-browser-warning` header so API calls skip
+  ngrok's interstitial page.
 
 ### Linting, formatting and type checking
 
