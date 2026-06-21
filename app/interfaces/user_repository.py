@@ -22,3 +22,7 @@ class UserRepository(Protocol):
     def get_by_id(self, user_id: int) -> User | None:
         """Return the user with the given id, or None if not found."""
         ...
+
+    def list_others(self, exclude_user_id: int) -> list[User]:
+        """Return all users except the one with `exclude_user_id`."""
+        ...

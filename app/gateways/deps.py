@@ -25,6 +25,7 @@ from app.security.password_hasher import PwdlibPasswordHasher
 from app.usecases.authenticate_user import AuthenticateUser
 from app.usecases.list_conversation import ListConversation
 from app.usecases.list_conversations import ListConversations
+from app.usecases.list_users import ListUsers
 from app.usecases.mark_read import MarkRead
 from app.usecases.register_user import RegisterUser
 from app.usecases.send_message import SendMessage
@@ -36,6 +37,12 @@ def get_user_repository(
     session: Annotated[Session, Depends(get_session)],
 ) -> UserRepository:
     return SqlAlchemyUserRepository(session)
+
+
+def get_list_users(
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> ListUsers:
+    return ListUsers(users)
 
 
 def get_password_hasher() -> PasswordHasher:

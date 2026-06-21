@@ -35,6 +35,9 @@ class FakeUserRepository(UserRepository):
     def get_by_id(self, user_id: int) -> User | None:
         return self._users.get(user_id)
 
+    def list_others(self, exclude_user_id: int) -> list[User]:
+        return [u for uid, u in self._users.items() if uid != exclude_user_id]
+
 
 class FakeMessageRepository(MessageRepository):
     def __init__(self) -> None:

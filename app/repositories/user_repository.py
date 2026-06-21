@@ -41,3 +41,11 @@ class SqlAlchemyUserRepository(UserRepository):
     def get_by_id(self, user_id: int) -> User | None:
         model = self._session.get(UserModel, user_id)
         return _to_entity(model) if model is not None else None
+
+    def list_others(self, exclude_user_id: int) -> list[User]:
+        models = self._session.scalars(
+            select(UserModel)
+            .where(UserModel.id != exclude_user_id)
+            .order_by(UserModel.name)
+        ).all()
+        return [_to_entity(m) for m in models]
