@@ -34,6 +34,49 @@ Backend for the Comé que Tá project, built with FastAPI and SQLAlchemy.
    cp .env.example .env
    ```
 
+## Rodando o servidor no seu PC (passo a passo)
+
+Pré-requisitos: ter o [uv](https://docs.astral.sh/uv/) instalado (ele baixa o
+Python 3.14 automaticamente). Não é preciso instalar banco de dados — o padrão
+é um **SQLite local** (arquivo `comequeta.db`, criado sozinho na primeira
+execução).
+
+1. Instale as dependências (cria o `.venv` automaticamente):
+
+   ```bash
+   uv sync
+   ```
+
+2. Crie o arquivo de ambiente a partir do exemplo (opcional para rodar local; os
+   defaults já funcionam):
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Suba o servidor:
+
+   ```bash
+   # opção A — script auxiliar (escuta em 0.0.0.0:8000, pronto para tunelar)
+   bash scripts/serve.sh
+
+   # opção B — direto, com auto-reload durante o desenvolvimento
+   uv run uvicorn app.main:app --reload --port 8000
+   ```
+
+4. Confirme que está no ar:
+
+   ```bash
+   curl http://localhost:8000/health      # -> {"status":"ok"}
+   ```
+
+   A documentação interativa (Swagger) fica em `http://localhost:8000/docs`.
+
+Os dados ficam no arquivo `comequeta.db` na máquina e **persistem** entre
+execuções. Para começar do zero, basta apagar esse arquivo. Para expor o
+servidor à internet (e ao celular fora da sua rede), veja a seção
+[**ngrok**](#exposing-the-backend-publicly-via-ngrok-demo) abaixo.
+
 ## Architecture
 
 The backend follows **Clean Architecture**, organized by layer. The dependency
