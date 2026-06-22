@@ -1,7 +1,7 @@
-from app.entities.user import User
-from app.usecases.list_nearby_users import ListNearbyUsers
-from app.usecases.list_users import ListUsers
-from app.usecases.update_location import UpdateLocation
+from core.entities.user import User
+from core.use_cases.list_nearby_users import ListNearbyUsers
+from core.use_cases.list_users import ListUsers
+from core.use_cases.update_location import UpdateLocation
 from tests.fakes import FakeUserRepository
 
 

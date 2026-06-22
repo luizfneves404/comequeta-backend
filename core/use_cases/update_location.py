@@ -1,6 +1,6 @@
 """Use case: persist the current user's last reported position."""
 
-from app.interfaces.user_repository import UserRepository
+from core.interfaces.user_repository import UserRepository
 
 
 class UpdateLocation:

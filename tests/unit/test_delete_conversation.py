@@ -1,7 +1,7 @@
-from app.entities.user import User
-from app.usecases.delete_conversation import DeleteConversation
-from app.usecases.list_conversation import ListConversation
-from app.usecases.send_message import SendMessage
+from core.entities.user import User
+from core.use_cases.delete_conversation import DeleteConversation
+from core.use_cases.list_conversation import ListConversation
+from core.use_cases.send_message import SendMessage
 from tests.fakes import FakeMessageRepository, FakeUserRepository
 
 

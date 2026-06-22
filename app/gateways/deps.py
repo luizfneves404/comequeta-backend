@@ -13,25 +13,31 @@ from jwt.exceptions import InvalidTokenError
 from sqlalchemy.orm import Session
 
 from app.config import settings
-from app.db import get_session
-from app.entities.user import User
-from app.interfaces.message_repository import MessageRepository
-from app.interfaces.security import PasswordHasher, TokenProvider
-from app.interfaces.user_repository import UserRepository
-from app.repositories.message_repository import SqlMessageRepository
-from app.repositories.user_repository import SqlAlchemyUserRepository
-from app.security.jwt_provider import JwtTokenProvider
-from app.security.password_hasher import PwdlibPasswordHasher
-from app.usecases.authenticate_user import AuthenticateUser
-from app.usecases.delete_conversation import DeleteConversation
-from app.usecases.list_conversation import ListConversation
-from app.usecases.list_conversations import ListConversations
-from app.usecases.list_nearby_users import ListNearbyUsers
-from app.usecases.list_users import ListUsers
-from app.usecases.mark_read import MarkRead
-from app.usecases.register_user import RegisterUser
-from app.usecases.send_message import SendMessage
-from app.usecases.update_location import UpdateLocation
+from core.entities.user import User
+from core.interfaces.message_repository import MessageRepository
+from core.interfaces.security import PasswordHasher, TokenProvider
+from core.interfaces.user_repository import UserRepository
+from core.use_cases.authenticate_user import AuthenticateUser
+from core.use_cases.delete_conversation import DeleteConversation
+from core.use_cases.list_conversation import ListConversation
+from core.use_cases.list_conversations import ListConversations
+from core.use_cases.list_nearby_users import ListNearbyUsers
+from core.use_cases.list_users import ListUsers
+from core.use_cases.mark_read import MarkRead
+from core.use_cases.register_user import RegisterUser
+from core.use_cases.send_message import SendMessage
+from core.use_cases.update_location import UpdateLocation
+from infra.external_systems.db import get_session
+from infra.external_systems.repositories.message_repository import (
+    SqlMessageRepository,
+)
+from infra.external_systems.repositories.user_repository import (
+    SqlAlchemyUserRepository,
+)
+from infra.external_systems.security.jwt_provider import JwtTokenProvider
+from infra.external_systems.security.password_hasher import (
+    PwdlibPasswordHasher,
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 

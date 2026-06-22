@@ -1,6 +1,6 @@
 """Use case: delete a 1:1 conversation (all messages between two users)."""
 
-from app.interfaces.message_repository import MessageRepository
+from core.interfaces.message_repository import MessageRepository
 
 
 class DeleteConversation:

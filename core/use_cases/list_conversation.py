@@ -2,8 +2,8 @@
 
 from datetime import datetime
 
-from app.entities.message import Message
-from app.interfaces.message_repository import MessageRepository
+from core.entities.message import Message
+from core.interfaces.message_repository import MessageRepository
 
 
 class ListConversation:

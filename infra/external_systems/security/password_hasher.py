@@ -6,7 +6,7 @@ uses pwdlib's recommended configuration (Argon2id).
 
 from pwdlib import PasswordHash
 
-from app.interfaces.security import PasswordHasher
+from core.interfaces.security import PasswordHasher
 
 
 class PwdlibPasswordHasher(PasswordHasher):

@@ -5,10 +5,10 @@ from datetime import datetime
 from sqlalchemy import and_, delete, or_, select, update
 from sqlalchemy.orm import Session
 
-from app.entities.conversation import ConversationSummary
-from app.entities.message import Message
-from app.interfaces.message_repository import MessageRepository
-from app.repositories.models import MessageModel, UserModel
+from core.entities.conversation import ConversationSummary
+from core.entities.message import Message
+from core.interfaces.message_repository import MessageRepository
+from infra.external_systems.repositories.models import MessageModel, UserModel
 
 
 def _to_entity(model: MessageModel) -> Message:

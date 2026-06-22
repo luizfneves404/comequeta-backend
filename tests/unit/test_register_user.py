@@ -1,7 +1,7 @@
 import pytest
 
-from app.usecases.errors import EmailAlreadyExistsError
-from app.usecases.register_user import RegisterUser
+from core.use_cases.errors import EmailAlreadyExistsError
+from core.use_cases.register_user import RegisterUser
 from tests.fakes import FakePasswordHasher, FakeUserRepository
 
 

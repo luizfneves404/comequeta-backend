@@ -7,7 +7,7 @@ and the outer layer (repositories) implements it.
 
 from typing import Protocol
 
-from app.entities.user import User
+from core.entities.user import User
 
 
 class UserRepository(Protocol):

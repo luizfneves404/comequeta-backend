@@ -1,9 +1,9 @@
 """Use case: register a new user."""
 
-from app.entities.user import User
-from app.interfaces.security import PasswordHasher
-from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import EmailAlreadyExistsError
+from core.entities.user import User
+from core.interfaces.security import PasswordHasher
+from core.interfaces.user_repository import UserRepository
+from core.use_cases.errors import EmailAlreadyExistsError
 
 
 class RegisterUser:

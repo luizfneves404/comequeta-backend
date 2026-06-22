@@ -1,8 +1,8 @@
 import pytest
 
-from app.entities.user import User
-from app.usecases.errors import RecipientNotFoundError
-from app.usecases.send_message import SendMessage
+from core.entities.user import User
+from core.use_cases.errors import RecipientNotFoundError
+from core.use_cases.send_message import SendMessage
 from tests.fakes import FakeMessageRepository, FakeUserRepository
 
 
