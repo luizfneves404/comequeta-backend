@@ -127,7 +127,11 @@ App configuration is managed with [pydantic-settings](https://docs.pydantic.dev/
 Run the project (FastAPI app, served by uvicorn):
 
 ```bash
-uv run uvicorn app.main:app --reload --port 8000
+uv run fastapi dev
+```
+or
+```bash
+uv run fastapi run
 ```
 
 Or use the helper script (binds to 0.0.0.0 so it can be tunneled):

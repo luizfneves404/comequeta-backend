@@ -1,8 +1,8 @@
 import pytest
 
-from app.entities.user import User
-from app.usecases.errors import UserNotFoundError
-from app.usecases.update_profile import UpdateProfile
+from core.entities.user import User
+from core.use_cases.errors import UserNotFoundError
+from core.use_cases.update_profile import UpdateProfile
 from tests.fakes import FakeUserRepository
 
 

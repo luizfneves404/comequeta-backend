@@ -12,8 +12,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
-from app.db import Base, get_session
 from app.main import app
+from infra.db import Base, get_session
 
 
 @pytest.fixture

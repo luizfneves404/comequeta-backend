@@ -1,6 +1,6 @@
 """Use case: mark a conversation's incoming messages as read."""
 
-from app.interfaces.message_repository import MessageRepository
+from core.interfaces.message_repository import MessageRepository
 
 
 class MarkRead:

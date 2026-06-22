@@ -1,8 +1,8 @@
 """Use case: authenticate a user and issue an access token."""
 
-from app.interfaces.security import PasswordHasher, TokenProvider
-from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import InvalidCredentialsError
+from core.interfaces.security import PasswordHasher, TokenProvider
+from core.interfaces.user_repository import UserRepository
+from core.use_cases.errors import InvalidCredentialsError
 
 
 class AuthenticateUser:

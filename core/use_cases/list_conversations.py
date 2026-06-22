@@ -1,7 +1,7 @@
 """Use case: list a user's conversation summaries."""
 
-from app.entities.conversation import ConversationSummary
-from app.interfaces.message_repository import MessageRepository
+from core.entities.conversation import ConversationSummary
+from core.interfaces.message_repository import MessageRepository
 
 
 class ListConversations:

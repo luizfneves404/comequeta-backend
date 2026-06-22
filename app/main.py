@@ -7,11 +7,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import inspect
 
 from app.config import settings
-from app.db import Base, engine
 from app.gateways import auth_router, chat_router, users_router
+from infra.db import Base, engine
 
 # Import models so they are registered on Base.metadata before create_all.
-from app.repositories import models  # noqa: F401
+from infra.repositories import models  # noqa: F401
 
 
 def _ensure_user_columns() -> None:

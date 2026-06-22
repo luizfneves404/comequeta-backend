@@ -4,7 +4,12 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, status
 
-from app.entities.user import User
+from app.dtos.schemas import (
+    LocationUpdate,
+    NearbyUserRead,
+    ProfileUpdate,
+    UserRead,
+)
 from app.gateways.deps import (
     get_current_user,
     get_list_nearby_users,
@@ -12,16 +17,11 @@ from app.gateways.deps import (
     get_update_location,
     get_update_profile,
 )
-from app.gateways.schemas import (
-    LocationUpdate,
-    NearbyUserRead,
-    ProfileUpdate,
-    UserRead,
-)
-from app.usecases.list_nearby_users import ListNearbyUsers
-from app.usecases.list_users import ListUsers
-from app.usecases.update_location import UpdateLocation
-from app.usecases.update_profile import UpdateProfile
+from core.entities.user import User
+from core.use_cases.list_nearby_users import ListNearbyUsers
+from core.use_cases.list_users import ListUsers
+from core.use_cases.update_location import UpdateLocation
+from core.use_cases.update_profile import UpdateProfile
 
 router = APIRouter(prefix="/users", tags=["users"])
 

@@ -8,9 +8,9 @@ from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field
 
-from app.entities.conversation import ConversationSummary
-from app.entities.message import Message
-from app.entities.user import User
+from core.entities.conversation import ConversationSummary
+from core.entities.message import Message
+from core.entities.user import User
 
 
 class UserCreate(BaseModel):

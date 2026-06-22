@@ -1,4 +1,6 @@
-from app.security.password_hasher import PwdlibPasswordHasher
+from infra.security.password_hasher import (
+    PwdlibPasswordHasher,
+)
 
 
 def test_hash_is_not_plaintext_and_verifies() -> None:

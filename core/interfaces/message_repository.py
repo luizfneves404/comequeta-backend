@@ -7,8 +7,8 @@ the application rules independent of SQLAlchemy (Dependency Inversion).
 from datetime import datetime
 from typing import Protocol
 
-from app.entities.conversation import ConversationSummary
-from app.entities.message import Message
+from core.entities.conversation import ConversationSummary
+from core.entities.message import Message
 
 
 class MessageRepository(Protocol):

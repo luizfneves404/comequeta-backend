@@ -4,8 +4,8 @@ Powers the "start a new conversation" picker on the client, so a user can chat
 with any other real account.
 """
 
-from app.entities.user import User
-from app.interfaces.user_repository import UserRepository
+from core.entities.user import User
+from core.interfaces.user_repository import UserRepository
 
 
 class ListUsers:

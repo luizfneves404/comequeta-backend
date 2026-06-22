@@ -8,12 +8,12 @@ architecture.
 from dataclasses import replace
 from datetime import datetime
 
-from app.entities.conversation import ConversationSummary
-from app.entities.message import Message
-from app.entities.user import User
-from app.interfaces.message_repository import MessageRepository
-from app.interfaces.security import PasswordHasher, TokenProvider
-from app.interfaces.user_repository import UserRepository
+from core.entities.conversation import ConversationSummary
+from core.entities.message import Message
+from core.entities.user import User
+from core.interfaces.message_repository import MessageRepository
+from core.interfaces.security import PasswordHasher, TokenProvider
+from core.interfaces.user_repository import UserRepository
 
 
 class FakeUserRepository(UserRepository):

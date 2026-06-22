@@ -8,7 +8,7 @@ from datetime import UTC, datetime, timedelta
 import jwt
 from jwt.exceptions import InvalidTokenError
 
-from app.interfaces.security import TokenProvider
+from core.interfaces.security import TokenProvider
 
 
 class JwtTokenProvider(TokenProvider):

@@ -3,9 +3,9 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.entities.user import User
-from app.interfaces.user_repository import UserRepository
-from app.repositories.models import UserModel
+from core.entities.user import User
+from core.interfaces.user_repository import UserRepository
+from infra.repositories.models import UserModel
 
 
 def _to_entity(model: UserModel) -> User:

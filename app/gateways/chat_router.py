@@ -22,8 +22,11 @@ from jwt.exceptions import InvalidTokenError
 from sqlalchemy.orm import Session
 
 from app.config import settings
-from app.db import get_session
-from app.entities.user import User
+from app.dtos.schemas import (
+    ConversationRead,
+    MessageCreate,
+    MessageRead,
+)
 from app.gateways.connection_manager import manager
 from app.gateways.deps import (
     get_current_user,
@@ -33,21 +36,22 @@ from app.gateways.deps import (
     get_mark_read,
     get_send_message,
 )
-from app.gateways.schemas import (
-    ConversationRead,
-    MessageCreate,
-    MessageRead,
+from core.entities.user import User
+from core.interfaces.security import TokenProvider
+from core.use_cases.delete_conversation import DeleteConversation
+from core.use_cases.errors import RecipientNotFoundError
+from core.use_cases.list_conversation import ListConversation
+from core.use_cases.list_conversations import ListConversations
+from core.use_cases.mark_read import MarkRead
+from core.use_cases.send_message import SendMessage
+from infra.db import get_session
+from infra.repositories.message_repository import (
+    SqlMessageRepository,
 )
-from app.interfaces.security import TokenProvider
-from app.repositories.message_repository import SqlMessageRepository
-from app.repositories.user_repository import SqlAlchemyUserRepository
-from app.security.jwt_provider import JwtTokenProvider
-from app.usecases.delete_conversation import DeleteConversation
-from app.usecases.errors import RecipientNotFoundError
-from app.usecases.list_conversation import ListConversation
-from app.usecases.list_conversations import ListConversations
-from app.usecases.mark_read import MarkRead
-from app.usecases.send_message import SendMessage
+from infra.repositories.user_repository import (
+    SqlAlchemyUserRepository,
+)
+from infra.security.jwt_provider import JwtTokenProvider
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

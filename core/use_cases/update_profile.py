@@ -4,9 +4,9 @@ Lets a user change their display name and bio. Depends only on the
 UserRepository abstraction, so it is unit-testable with fakes.
 """
 
-from app.entities.user import User
-from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import UserNotFoundError
+from core.entities.user import User
+from core.interfaces.user_repository import UserRepository
+from core.use_cases.errors import UserNotFoundError
 
 
 class UpdateProfile:

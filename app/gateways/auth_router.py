@@ -5,14 +5,14 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 
+from app.dtos.schemas import Token, UserCreate, UserRead
 from app.gateways.deps import get_authenticate_user, get_register_user
-from app.gateways.schemas import Token, UserCreate, UserRead
-from app.usecases.authenticate_user import AuthenticateUser
-from app.usecases.errors import (
+from core.use_cases.authenticate_user import AuthenticateUser
+from core.use_cases.errors import (
     EmailAlreadyExistsError,
     InvalidCredentialsError,
 )
-from app.usecases.register_user import RegisterUser
+from core.use_cases.register_user import RegisterUser
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

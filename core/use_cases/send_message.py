@@ -2,10 +2,10 @@
 
 from datetime import UTC, datetime
 
-from app.entities.message import Message
-from app.interfaces.message_repository import MessageRepository
-from app.interfaces.user_repository import UserRepository
-from app.usecases.errors import RecipientNotFoundError
+from core.entities.message import Message
+from core.interfaces.message_repository import MessageRepository
+from core.interfaces.user_repository import UserRepository
+from core.use_cases.errors import RecipientNotFoundError
 
 
 class SendMessage:

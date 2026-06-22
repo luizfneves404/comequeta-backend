@@ -6,8 +6,8 @@ people within their radius, using each user's last reported location.
 
 import math
 
-from app.entities.user import User
-from app.interfaces.user_repository import UserRepository
+from core.entities.user import User
+from core.interfaces.user_repository import UserRepository
 
 _EARTH_RADIUS_M = 6_371_000.0
 

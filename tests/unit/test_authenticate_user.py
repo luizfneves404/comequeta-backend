@@ -1,8 +1,8 @@
 import pytest
 
-from app.usecases.authenticate_user import AuthenticateUser
-from app.usecases.errors import InvalidCredentialsError
-from app.usecases.register_user import RegisterUser
+from core.use_cases.authenticate_user import AuthenticateUser
+from core.use_cases.errors import InvalidCredentialsError
+from core.use_cases.register_user import RegisterUser
 from tests.fakes import (
     FakePasswordHasher,
     FakeTokenProvider,
