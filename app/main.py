@@ -14,12 +14,13 @@ from app.gateways import auth_router, chat_router, users_router
 from app.repositories import models  # noqa: F401
 
 
-def _ensure_user_location_columns() -> None:
-    """Add the lat/lng columns to a pre-existing SQLite ``users`` table.
+def _ensure_user_columns() -> None:
+    """Add newer columns to a pre-existing SQLite ``users`` table.
 
     ``create_all`` creates missing tables but never ALTERs existing ones, so an
-    older database would lack the location columns. This best-effort migration
-    adds them in place, keeping existing accounts/messages.
+    older database would lack columns added later (location, bio). This
+    best-effort migration adds them in place, keeping existing
+    accounts/messages.
     """
     if not settings.database_url.startswith("sqlite"):
         return
@@ -32,13 +33,15 @@ def _ensure_user_location_columns() -> None:
             conn.exec_driver_sql("ALTER TABLE users ADD COLUMN lat FLOAT")
         if "lng" not in columns:
             conn.exec_driver_sql("ALTER TABLE users ADD COLUMN lng FLOAT")
+        if "bio" not in columns:
+            conn.exec_driver_sql("ALTER TABLE users ADD COLUMN bio VARCHAR")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # No Alembic for this MVP: create the schema on startup (SQLite).
     Base.metadata.create_all(bind=engine)
-    _ensure_user_location_columns()
+    _ensure_user_columns()
     yield
 
 

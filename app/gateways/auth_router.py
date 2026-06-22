@@ -29,6 +29,7 @@ def register(
             email=payload.email,
             name=payload.name,
             password=payload.password,
+            bio=payload.bio,
         )
     except EmailAlreadyExistsError:
         raise HTTPException(

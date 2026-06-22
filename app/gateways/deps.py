@@ -32,6 +32,7 @@ from app.usecases.mark_read import MarkRead
 from app.usecases.register_user import RegisterUser
 from app.usecases.send_message import SendMessage
 from app.usecases.update_location import UpdateLocation
+from app.usecases.update_profile import UpdateProfile
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
@@ -58,6 +59,12 @@ def get_update_location(
     users: Annotated[UserRepository, Depends(get_user_repository)],
 ) -> UpdateLocation:
     return UpdateLocation(users)
+
+
+def get_update_profile(
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> UpdateProfile:
+    return UpdateProfile(users)
 
 
 def get_password_hasher() -> PasswordHasher:

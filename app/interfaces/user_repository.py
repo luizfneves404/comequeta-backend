@@ -30,3 +30,12 @@ class UserRepository(Protocol):
     def update_location(self, user_id: int, lat: float, lng: float) -> None:
         """Persist the user's last reported position."""
         ...
+
+    def update_profile(
+        self, user_id: int, name: str, bio: str | None
+    ) -> User | None:
+        """Update the user's editable profile fields and return the result.
+
+        Returns the updated user, or None if no user has ``user_id``.
+        """
+        ...

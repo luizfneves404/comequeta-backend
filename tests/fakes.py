@@ -43,6 +43,16 @@ class FakeUserRepository(UserRepository):
         if user is not None:
             self._users[user_id] = replace(user, lat=lat, lng=lng)
 
+    def update_profile(
+        self, user_id: int, name: str, bio: str | None
+    ) -> User | None:
+        user = self._users.get(user_id)
+        if user is None:
+            return None
+        updated = replace(user, name=name, bio=bio)
+        self._users[user_id] = updated
+        return updated
+
 
 class FakeMessageRepository(MessageRepository):
     def __init__(self) -> None:

@@ -10,11 +10,18 @@ from app.gateways.deps import (
     get_list_nearby_users,
     get_list_users,
     get_update_location,
+    get_update_profile,
 )
-from app.gateways.schemas import LocationUpdate, NearbyUserRead, UserRead
+from app.gateways.schemas import (
+    LocationUpdate,
+    NearbyUserRead,
+    ProfileUpdate,
+    UserRead,
+)
 from app.usecases.list_nearby_users import ListNearbyUsers
 from app.usecases.list_users import ListUsers
 from app.usecases.update_location import UpdateLocation
+from app.usecases.update_profile import UpdateProfile
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -24,6 +31,18 @@ def read_current_user(
     current_user: Annotated[User, Depends(get_current_user)],
 ) -> UserRead:
     return UserRead.from_entity(current_user)
+
+
+@router.put("/me", response_model=UserRead)
+def update_current_user(
+    payload: ProfileUpdate,
+    current_user: Annotated[User, Depends(get_current_user)],
+    use_case: Annotated[UpdateProfile, Depends(get_update_profile)],
+) -> UserRead:
+    """Update the current user's display name and bio."""
+    assert current_user.id is not None
+    user = use_case.execute(current_user.id, payload.name, payload.bio)
+    return UserRead.from_entity(user)
 
 
 @router.put("/me/location", status_code=status.HTTP_204_NO_CONTENT)

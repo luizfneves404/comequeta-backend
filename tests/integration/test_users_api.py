@@ -81,6 +81,49 @@ def test_update_location_then_nearby_sees_other_user(
     assert all("lat" in u and "lng" in u for u in body)
 
 
+def test_register_with_bio_then_me_returns_it(client: TestClient) -> None:
+    response = client.post(
+        "/auth/register",
+        json={
+            "email": "ana@example.com",
+            "name": "Ana",
+            "password": "secret123",
+            "bio": "Adoro trocar mudas.",
+        },
+    )
+    assert response.status_code == 201, response.text
+    assert response.json()["bio"] == "Adoro trocar mudas."
+
+    token = token_for(client, "ana@example.com")
+    me = client.get("/users/me", headers=_auth(token))
+    assert me.status_code == 200, me.text
+    assert me.json()["bio"] == "Adoro trocar mudas."
+
+
+def test_update_profile_changes_name_and_bio(client: TestClient) -> None:
+    register(client, "ana@example.com", "Ana")
+    token = token_for(client, "ana@example.com")
+
+    response = client.put(
+        "/users/me",
+        json={"name": "Ana Maria", "bio": "Vizinha do 201."},
+        headers=_auth(token),
+    )
+    assert response.status_code == 200, response.text
+    body = response.json()
+    assert body["name"] == "Ana Maria"
+    assert body["bio"] == "Vizinha do 201."
+
+    me = client.get("/users/me", headers=_auth(token)).json()
+    assert me["name"] == "Ana Maria"
+    assert me["bio"] == "Vizinha do 201."
+
+
+def test_update_profile_without_token_returns_401(client: TestClient) -> None:
+    response = client.put("/users/me", json={"name": "X", "bio": None})
+    assert response.status_code == 401
+
+
 def test_nearby_excludes_far_and_locationless_users(
     client: TestClient,
 ) -> None:
