@@ -17,17 +17,24 @@ class UserCreate(BaseModel):
     email: EmailStr
     name: str = Field(min_length=1, max_length=120)
     password: str = Field(min_length=8, max_length=128)
+    bio: str | None = Field(default=None, max_length=500)
+
+
+class ProfileUpdate(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    bio: str | None = Field(default=None, max_length=500)
 
 
 class UserRead(BaseModel):
     id: int
     email: EmailStr
     name: str
+    bio: str | None = None
 
     @classmethod
     def from_entity(cls, user: User) -> UserRead:
         assert user.id is not None
-        return cls(id=user.id, email=user.email, name=user.name)
+        return cls(id=user.id, email=user.email, name=user.name, bio=user.bio)
 
 
 class Token(BaseModel):

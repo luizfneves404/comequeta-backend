@@ -17,7 +17,13 @@ class RegisterUser:
         self._users = users
         self._hasher = hasher
 
-    def execute(self, email: str, name: str, password: str) -> User:
+    def execute(
+        self,
+        email: str,
+        name: str,
+        password: str,
+        bio: str | None = None,
+    ) -> User:
         if self._users.get_by_email(email) is not None:
             raise EmailAlreadyExistsError(email)
 
@@ -26,5 +32,6 @@ class RegisterUser:
             email=email,
             name=name,
             hashed_password=self._hasher.hash(password),
+            bio=bio,
         )
         return self._users.add(user)

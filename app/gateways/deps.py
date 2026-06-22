@@ -27,6 +27,7 @@ from core.use_cases.mark_read import MarkRead
 from core.use_cases.register_user import RegisterUser
 from core.use_cases.send_message import SendMessage
 from core.use_cases.update_location import UpdateLocation
+from core.use_cases.update_profile import UpdateProfile
 from infra.db import get_session
 from infra.repositories.message_repository import (
     SqlMessageRepository,
@@ -64,6 +65,12 @@ def get_update_location(
     users: Annotated[UserRepository, Depends(get_user_repository)],
 ) -> UpdateLocation:
     return UpdateLocation(users)
+
+
+def get_update_profile(
+    users: Annotated[UserRepository, Depends(get_user_repository)],
+) -> UpdateProfile:
+    return UpdateProfile(users)
 
 
 def get_password_hasher() -> PasswordHasher:

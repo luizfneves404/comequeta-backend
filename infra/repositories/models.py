@@ -19,6 +19,7 @@ class UserModel(Base):
     email: Mapped[str] = mapped_column(unique=True, index=True)
     name: Mapped[str] = mapped_column()
     hashed_password: Mapped[str] = mapped_column()
+    bio: Mapped[str | None] = mapped_column(default=None)
     lat: Mapped[float | None] = mapped_column(default=None)
     lng: Mapped[float | None] = mapped_column(default=None)
 

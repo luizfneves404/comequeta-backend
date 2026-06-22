@@ -19,6 +19,8 @@ class User:
     email: str
     name: str
     hashed_password: str
+    # Free-text self description shown on the user's profile (optional).
+    bio: str | None = None
     # Last reported position (set when the user opens the map).
     lat: float | None = None
     lng: float | None = None

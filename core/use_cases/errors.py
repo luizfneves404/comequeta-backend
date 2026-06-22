@@ -19,3 +19,7 @@ class InvalidCredentialsError(ApplicationError):
 
 class RecipientNotFoundError(ApplicationError):
     """Raised when sending a message to a user that does not exist."""
+
+
+class UserNotFoundError(ApplicationError):
+    """Raised when an operation targets a user that does not exist."""

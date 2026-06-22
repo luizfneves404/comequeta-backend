@@ -25,6 +25,31 @@ def test_registers_user_with_hashed_password() -> None:
     assert users.get_by_id(user.id) == user
 
 
+def test_registers_user_with_bio() -> None:
+    register, users = make_use_case()
+
+    user = register.execute(
+        email="ana@example.com",
+        name="Ana",
+        password="secret123",
+        bio="Adoro plantar e trocar mudas.",
+    )
+
+    assert user.bio == "Adoro plantar e trocar mudas."
+    assert user.id is not None
+    assert users.get_by_id(user.id) == user
+
+
+def test_bio_defaults_to_none_when_omitted() -> None:
+    register, _ = make_use_case()
+
+    user = register.execute(
+        email="ana@example.com", name="Ana", password="secret123"
+    )
+
+    assert user.bio is None
+
+
 def test_rejects_duplicate_email() -> None:
     register, _ = make_use_case()
     register.execute(email="ana@example.com", name="Ana", password="secret123")

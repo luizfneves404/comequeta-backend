@@ -14,6 +14,7 @@ def _to_entity(model: UserModel) -> User:
         email=model.email,
         name=model.name,
         hashed_password=model.hashed_password,
+        bio=model.bio,
         lat=model.lat,
         lng=model.lng,
     )
@@ -28,6 +29,7 @@ class SqlAlchemyUserRepository(UserRepository):
             email=user.email,
             name=user.name,
             hashed_password=user.hashed_password,
+            bio=user.bio,
         )
         self._session.add(model)
         self._session.commit()
@@ -59,3 +61,15 @@ class SqlAlchemyUserRepository(UserRepository):
         model.lat = lat
         model.lng = lng
         self._session.commit()
+
+    def update_profile(
+        self, user_id: int, name: str, bio: str | None
+    ) -> User | None:
+        model = self._session.get(UserModel, user_id)
+        if model is None:
+            return None
+        model.name = name
+        model.bio = bio
+        self._session.commit()
+        self._session.refresh(model)
+        return _to_entity(model)
