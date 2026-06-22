@@ -44,14 +44,14 @@ from core.use_cases.list_conversation import ListConversation
 from core.use_cases.list_conversations import ListConversations
 from core.use_cases.mark_read import MarkRead
 from core.use_cases.send_message import SendMessage
-from infra.external_systems.db import get_session
-from infra.external_systems.repositories.message_repository import (
+from infra.db import get_session
+from infra.repositories.message_repository import (
     SqlMessageRepository,
 )
-from infra.external_systems.repositories.user_repository import (
+from infra.repositories.user_repository import (
     SqlAlchemyUserRepository,
 )
-from infra.external_systems.security.jwt_provider import JwtTokenProvider
+from infra.security.jwt_provider import JwtTokenProvider
 
 router = APIRouter(prefix="/chat", tags=["chat"])
 

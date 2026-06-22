@@ -1,7 +1,7 @@
 import pytest
 from jwt.exceptions import InvalidTokenError
 
-from infra.external_systems.security.jwt_provider import JwtTokenProvider
+from infra.security.jwt_provider import JwtTokenProvider
 
 
 def make_provider(expire_minutes: int = 60) -> JwtTokenProvider:

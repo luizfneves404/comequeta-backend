@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from sqlalchemy.pool import StaticPool
 
 from app.main import app
-from infra.external_systems.db import Base, get_session
+from infra.db import Base, get_session
 
 
 @pytest.fixture

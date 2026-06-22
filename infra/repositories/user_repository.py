@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from core.entities.user import User
 from core.interfaces.user_repository import UserRepository
-from infra.external_systems.repositories.models import UserModel
+from infra.repositories.models import UserModel
 
 
 def _to_entity(model: UserModel) -> User:

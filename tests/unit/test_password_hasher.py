@@ -1,4 +1,4 @@
-from infra.external_systems.security.password_hasher import (
+from infra.security.password_hasher import (
     PwdlibPasswordHasher,
 )
 
